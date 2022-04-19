@@ -1,12 +1,21 @@
 <script lang="ts">
   import { sideBarCollapsed } from "../ts/env";
+  import { Theme, themeListener } from "../ts/theme";
 
   let collapsed = false;
 
   sideBarCollapsed.subscribe((v) => (collapsed = v));
+
+  let darkmode = false;
+  let curTheme: Theme;
+
+  themeListener((theme, dark) => {
+    darkmode = dark;
+    curTheme = theme;
+  });
 </script>
 
-<div class="sidebar" class:collapsed />
+<div class="sidebar" class:collapsed class:darkmode />
 
 <style scoped>
   div.sidebar {
@@ -15,7 +24,6 @@
     left: 0px;
     width: 280px;
     height: calc(100vh - 70px);
-    background: #ffffff04;
     padding: 25px;
     overflow-x: hidden;
     word-wrap: none;
@@ -24,7 +32,15 @@
   }
 
   div.sidebar.collapsed {
-      padding:10px;
-      width:60px;
+    padding: 10px;
+    width: 60px;
+  }
+
+  div.sidebar.darkmode {
+    background-color: #ffffff04;
+  }
+
+  div.sidebar:not(.dark) {
+    background-color: #00000004;
   }
 </style>
